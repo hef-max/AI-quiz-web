@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Masuk - Kuis AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Masuk</h2>
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Kata Sandi" required>
+            <button type="submit">Masuk</button>
+        </form>
+        <p>Belum punya akun? <a href="{{ url_for('auth.register') }}">Daftar di sini</a></p>
+    </div>
+</body>
+</html>

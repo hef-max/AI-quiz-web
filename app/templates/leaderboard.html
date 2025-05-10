@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0 text-center">🏆 Leaderboard AI Quiz</h3>
+                </div>
+                
+                <div class="card-body">
+                    {% if users %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Peringkat</th>
+                                        <th>Nickname</th>
+                                        <th>Skor</th>
+                                        <th>Badge</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                        <tr {% if current_user and current_user.id == user.id %}class="table-active font-weight-bold"{% endif %}>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ user.nickname }}</td>
+                                            <td>{{ user.score }}</td>
+                                            <td>
+                                                {% if loop.index == 1 %}
+                                                    <span class="badge badge-warning"><i class="fas fa-trophy"></i> Juara</span>
+                                                {% elif loop.index == 2 %}
+                                                    <span class="badge badge-secondary"><i class="fas fa-medal"></i> Runner-up</span>
+                                                {% elif loop.index == 3 %}
+                                                    <span class="badge badge-dark"><i class="fas fa-award"></i> Top 3</span>
+                                                {% elif user.score > 10 %}
+                                                    <span class="badge badge-primary"><i class="fas fa-star"></i> Expert</span>
+                                                {% elif user.score > 5 %}
+                                                    <span class="badge badge-info"><i class="fas fa-thumbs-up"></i> Skilled</span>
+                                                {% else %}
+                                                    <span class="badge badge-light"><i class="fas fa-user"></i> Beginner</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Belum ada skor yang tercatat. Jadilah yang pertama!
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.home') }}" class="btn btn-secondary">
+                            <i class="fas fa-home"></i> Beranda
+                        </a>
+                        <a href="{{ url_for('auth.quiz') }}" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Mulai Quiz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

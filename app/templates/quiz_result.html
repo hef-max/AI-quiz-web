@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header {% if is_correct %}bg-success{% else %}bg-danger{% endif %} text-white">
+                    <h3 class="mb-0 text-center">
+                        {% if is_correct %}
+                            <i class="fas fa-check-circle"></i> Jawaban Benar!
+                        {% else %}
+                            <i class="fas fa-times-circle"></i> Jawaban Salah!
+                        {% endif %}
+                    </h3>
+                </div>
+                
+                <div class="card-body">
+                    <h4 class="quiz-question mb-4">{{ question.question }}</h4>
+                    
+                    <div class="alert {% if is_correct %}alert-success{% else %}alert-danger{% endif %} mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Jawaban Anda:</strong>
+                                <p class="mb-0">{{ user_answer }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Jawaban Benar:</strong>
+                                <p class="mb-0">{{ question.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation p-3 bg-light rounded">
+                        <h5><i class="fas fa-lightbulb"></i> Penjelasan:</h5>
+                        <p>{{ question.explanation }}</p>
+                    </div>
+                    
+                    <div class="stats mt-4">
+                        <h5>Statistik Quiz:</h5>
+                        <div class="progress mb-2">
+                            {% set percentage = (stats.correct / stats.total) * 100 %}
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ percentage }}%">
+                                {{ stats.correct }}/{{ stats.total }} ({{ percentage|int }}%)
+                            </div>
+                        </div>
+                        <p class="text-muted small">Anda telah menjawab {{ stats.total }} pertanyaan, {{ stats.correct }} diantaranya benar.</p>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('auth.leaderboard') }}" class="btn btn-info">
+                            <i class="fas fa-trophy"></i> Lihat Leaderboard
+                        </a>
+                        <a href="{{ url_for('auth.quiz') }}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i> Pertanyaan Berikutnya
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

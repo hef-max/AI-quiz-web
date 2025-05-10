@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar - Kuis AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Daftar Akun</h2>
+        <form method="POST" action="{{ url_for('auth.register') }}">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="text" name="nickname" placeholder="Nama Panggilan" required>
+            <input type="password" name="password" placeholder="Kata Sandi" required>
+            <input type="password" name="confirm_password" placeholder="Konfirmasi Sandi" required>
+            <button type="submit">Daftar</button>
+        </form>
+        <p>Sudah punya akun? <a href="{{ url_for('auth.login') }}">Masuk di sini</a></p>
+    </div>
+</body>
+</html>

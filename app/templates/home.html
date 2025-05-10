@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">🌤️ Selamat Datang di AI Quiz Cuaca!</h1>
+
+    <form method="post" class="d-flex justify-content-center mb-4">
+        <input type="text" name="city" class="form-control w-50 me-2" placeholder="Masukkan Nama Kota" required>
+        <button type="submit" class="btn btn-primary">Cek Cuaca</button>
+    </form>
+
+    {% if weather_info %}
+    <div class="card p-4 shadow-sm">
+        <h4 class="mb-3">📍 Cuaca di {{ city | capitalize }}</h4>
+        
+        <h5 class="mt-4">📅 Ramalan Cuaca 3 Hari ke Depan:</h5>
+        <ul class="list-group">
+            {% for day in weather_info %}
+            <li class="list-group-item">
+                <strong>{{ day['day_name'] }}, {{ day['date'] }}</strong>: 
+                <span class="badge bg-warning text-dark">🌞 {{ day['temp_day'] }}°C</span> 
+                <span class="badge bg-secondary">🌙 {{ day['temp_night'] }}°C</span>
+                <br>
+                <small>{{ day['description'] | capitalize }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

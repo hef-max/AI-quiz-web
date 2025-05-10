@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0 text-center">AI Quiz</h3>
+                </div>
+                
+                <div class="card-body quiz-container">
+                    <!-- Statistik -->
+                    <div class="progress mb-4">
+                        {% set progress = (stats.total / 5) * 100 if stats.total < 5 else 100 %}
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress }}%">
+                            {{ stats.correct }} / {{ stats.total }}
+                        </div>
+                    </div>
+                    
+                    <h4 class="quiz-question mb-4">{{ question.question }}</h4>
+                    
+                    <form method="post" id="quiz-form">
+                        <input type="hidden" name="question_idx" value="{{ question_idx }}">
+                        
+                        <div class="quiz-options">
+                            {% for option in options %}
+                                <div class="form-check quiz-option mb-3">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="radio" 
+                                        name="answer" 
+                                        id="option{{ loop.index }}" 
+                                        value="{{ option }}" 
+                                        required>
+                                    <label class="form-check-label w-100" for="option{{ loop.index }}">
+                                        {{ option }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('auth.reset_quiz') }}" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt"></i> Reset Quiz
+                            </a>
+                            <button type="submit" class="btn btn-primary quiz-submit">
+                                <i class="fas fa-paper-plane"></i> Kirim Jawaban
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>Skor Saat Ini:</strong> {{ current_user.score }}
+                        </div>
+                        <div>
+                            <a href="{{ url_for('auth.leaderboard') }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-trophy"></i> Lihat Leaderboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tambahkan animasi saat memilih jawaban
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.quiz-option').forEach(o => {
+                o.classList.remove('selected');
+            });
+            this.classList.add('selected');
+        });
+    });
+</script>
+{% endblock %}
